@@ -2,9 +2,9 @@
 
 namespace App\System;
 
-use App\Component\ExampleImage;
+use App\Component\SpriteComponent;
 use App\Renderer\BackgroundRenderer;
-use App\Renderer\ExampleImageRenderer;
+use App\Renderer\SpriteRenderer;
 use GL\Math\{GLM, Quat, Vec2, Vec3};
 use VISU\ECS\EntitiesInterface;
 use VISU\ECS\SystemInterface;
@@ -28,7 +28,7 @@ class RenderingSystem2D implements SystemInterface
     /**
      * The example image renderer
      */
-    private ExampleImageRenderer $exampleImageRenderer;
+    private SpriteRenderer $spriteRenderer;
 
     /**
      * Fullscreen Texture Debug Renderer
@@ -44,7 +44,7 @@ class RenderingSystem2D implements SystemInterface
     )
     {
         $this->backgroundRenderer = new BackgroundRenderer($this->gl, $this->shaders);
-        $this->exampleImageRenderer = new ExampleImageRenderer($this->gl, $this->shaders);
+        $this->spriteRenderer = new SpriteRenderer($this->gl, $this->shaders);
         $this->fullscreenRenderer = new FullscreenTextureRenderer($this->gl);
     }
     
@@ -105,7 +105,7 @@ class RenderingSystem2D implements SystemInterface
         $this->backgroundRenderer->attachPass($context->pipeline, $sceneRenderTarget, $entities);
 
         // add the image example pass
-        $this->exampleImageRenderer->attachPass($context->pipeline, $sceneRenderTarget, $entities);
+        $this->spriteRenderer->attachPass($context->pipeline, $sceneRenderTarget, $entities);
 
         // add a pass that renders the scene render target to the backbuffer
         $this->fullscreenRenderer->attachPass($context->pipeline, $backbuffer, $sceneColor);

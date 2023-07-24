@@ -2,7 +2,7 @@
 
 namespace App\Renderer;
 
-use App\Component\ExampleImage;
+use App\Component\SpriteComponent;
 use App\Component\GlobalStateComponent;
 use GL\Math\Vec3;
 use VISU\ECS\EntitiesInterface;
@@ -66,7 +66,7 @@ class BackgroundRenderer
      * 
      * @param RenderPipeline $pipeline 
      * @param RenderTargetResource $renderTarget
-     * @param array<ExampleImage> $exampleImages
+     * @param array<SpriteComponent> $exampleImages
      */
     public function attachPass(
         RenderPipeline $pipeline, 

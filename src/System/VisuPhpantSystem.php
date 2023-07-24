@@ -2,7 +2,7 @@
 
 namespace App\System;
 
-use App\Component\ExampleImage;
+use App\Component\SpriteComponent;
 use App\Component\GlobalStateComponent;
 use App\Component\PlayerComponent;
 use GL\Math\{GLM, Quat, Vec2, Vec3};
@@ -31,11 +31,11 @@ class VisuPhpantSystem implements SystemInterface
      */
     public function register(EntitiesInterface $entities) : void
     {
-        $entities->registerComponent(ExampleImage::class);
+        $entities->registerComponent(SpriteComponent::class);
         $entities->registerComponent(PlayerComponent::class);
 
         $entity = $entities->create();
-        $spite = $entities->attach($entity, new ExampleImage);
+        $spite = $entities->attach($entity, new SpriteComponent('visuphpant2.png'));
         $player = $entities->attach($entity, new PlayerComponent);
         $transform = $entities->attach($entity, new Transform);
         $transform->position = new Vec3(0, 0, 0);
@@ -92,7 +92,7 @@ class VisuPhpantSystem implements SystemInterface
         $playerTransform->position->y = $playerTransform->position->y + $playerComponent->velocity;
 
         // change the displayed sprite frame based on the jump tick
-        $spriteComponent = $entities->get($playerEntity, ExampleImage::class);
+        $spriteComponent = $entities->get($playerEntity, SpriteComponent::class);
         if ($playerComponent->jumpTick < 8) {
             $spriteComponent->spriteFrame = 2;
         } else if ($playerComponent->jumpTick < 15) {

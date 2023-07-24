@@ -6,6 +6,7 @@ use App\Component\GlobalStateComponent;
 use App\Signals\SwitchToSceneSignal;
 use GameContainer;
 use App\System\CameraSystem2D;
+use App\System\PipeSystem;
 use App\System\RenderingSystem2D;
 use App\System\VisuPhpantSystem;
 use VISU\Graphics\Rendering\Pass\BackbufferData;
@@ -42,6 +43,11 @@ class GameViewScene extends BaseScene
      * system: Phpants
      */
     private VisuPhpantSystem $visuPhpantSystem;
+
+    /**
+     * system: Pipes
+     */
+    private PipeSystem $pipeSystem;
 
     /**
      * Function ID for keyboard handler
@@ -84,11 +90,15 @@ class GameViewScene extends BaseScene
             $this->container->resolveInputContext()
         );
 
+        // the pipes
+        $this->pipeSystem = new PipeSystem();
+
         // bind all systems to the scene itself
         $this->bindSystems([
             $this->cameraSystem,
             $this->renderingSystem,
             $this->visuPhpantSystem,
+            $this->pipeSystem,
         ]);
     }
 
@@ -165,6 +175,7 @@ class GameViewScene extends BaseScene
 
         $this->cameraSystem->update($this->entities);
         $this->visuPhpantSystem->update($this->entities);
+        $this->pipeSystem->update($this->entities);
     }
 
     /**

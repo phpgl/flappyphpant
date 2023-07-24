@@ -4,13 +4,15 @@ in vec2 v_uv;
 in float frame;
 
 uniform sampler2D u_sprite;
+uniform int u_rows;
+uniform int u_cols;
 
 out vec4 fragment_color;
 
 void main()
 {
-    int row_frame_count = 2;
-    int col_frame_count = 2;
+    int row_frame_count = u_rows;
+    int col_frame_count = u_cols;
 
     vec2 frame_size = vec2(1.0 / row_frame_count, 1.0 / col_frame_count);
 
