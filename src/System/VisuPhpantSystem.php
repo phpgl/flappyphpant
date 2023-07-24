@@ -69,6 +69,17 @@ class VisuPhpantSystem implements SystemInterface
             }
         }
 
+        // reset the game
+        if ($this->inputContext->actions->didButtonPress('reset')) {
+            $gameState->paused = true;
+            $gameState->waitingForStart = true;
+            $gameState->tick = 0;
+            $playerEntity = $entities->firstWith(PlayerComponent::class);
+            $playerTransform = $entities->get($playerEntity, Transform::class);
+            $playerTransform->position->x = 0;
+            $playerTransform->position->y = 0;
+        }
+
         $playerEntity = $entities->firstWith(PlayerComponent::class);
         $playerTransform = $entities->get($playerEntity, Transform::class);
         $playerTransform->position->x = $playerTransform->position->x + 1;
