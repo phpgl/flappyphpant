@@ -1,0 +1,33 @@
+/**
+ * This is the application's main container file. In other words, 
+ * it's the place where you want to specify your parameters and services. 
+ * 
+ * By default, all container files located in the `/app` directory are added
+ * to the current namespace. This means that you can easily import these files
+ * anywhere in your code by using the `import app/myfile` syntax.
+ */
+
+/**
+ * Configuration
+ * This includes the defaults, parameters, settings, and any other configuration-related aspects.
+ */
+import app/config
+
+/**
+ * Core services
+ * These are fundamental services like game loop, window, etc., that the application heavily relies on.
+ */
+import app/core
+
+/**
+ * Input / action & control mapping
+ * This involves the mapping of user inputs to certain actions or controls in your application.
+ */
+import app/input
+
+/**
+ * Signal handlers
+ * things in here are used to handle various events or signals that occur during the execution of your application.
+ * They can be used to gracefully handle errors, interruptions, and other events that need specific actions when they occur.
+ */
+import app/signals

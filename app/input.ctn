@@ -1,0 +1,28 @@
+/**
+ * Base input handler
+ */
+@input: VISU\OS\Input(@window.main, @visu.dispatcher)
+
+/**
+ * Input context mapper
+ */
+@input.context: VISU\OS\InputContextMap(@visu.dispatcher)
+    - register('game', @input.actions.game)
+    - switchTo('game')
+
+/**
+ * Actions maps (aka key bindings)
+ */
+
+/**
+ * Camera controls
+ */
+:input.action.map.game: {
+    jump: '@Key::SPACE',
+}
+
+/**
+ * Level Editor
+ */
+@input.actions.game: VISU\OS\InputActionMap()
+    - importArrayMap(:input.action.map.game)

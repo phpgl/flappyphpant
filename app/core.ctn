@@ -1,0 +1,37 @@
+/**
+ * Window
+ */
+@window.main: VISU\OS\Window(
+    :project.name, 
+    :window.default_widht, 
+    :window.default_height, 
+    @window.main.hints
+)
+
+/**
+ * VISU GL State
+ */
+@GL: VISU\Graphics\GLState
+
+/**
+ * Main Game & Loop
+ */
+// the main game
+@game: App\Game(@container)
+
+// the game loop
+// we are tick the game 60 times a second
+@game_loop.main: VISU\Runtime\GameLoop(@game, :runtime.ticks_per_second)
+
+/**
+ * Shader storage 
+ */
+@shaders: VISU\Graphics\ShaderCollection(@GL, :visu.path.resources.shader)
+    - enableVISUIncludes()
+    - addVISUShaders()
+    - scanShaderDirectory(:visu.path.resources.shader)
+
+/**
+ * Profiler
+ */
+@profiler: VISU\Instrument\CompatGPUProfiler

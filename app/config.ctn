@@ -1,0 +1,29 @@
+/**
+ * Configuration
+ *
+ * ----------------------------------------------------------------------------
+ */
+
+/**
+ * Application basics
+ */
+:project.name: '{{ project_name }}'
+:project.version: 'v0.1'
+
+/**
+ * Runtime
+ */
+:runtime.ticks_per_second: 60
+
+/**
+ * Window setup
+ */
+// defaults
+:window.default_widht: 1280
+:window.default_height: 720
+
+// base window hints
+@window.main.hints: VISU\OS\WindowHints
+ - setFocused(true)
+ - setFocusOnShow(true)
+ - setResizable(true)

@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php 
+if (!defined('DS')) { define('DS', DIRECTORY_SEPARATOR); }
+
+set_time_limit(0);
+
+/**
+ *---------------------------------------------------------------
+ * Autoloader / Compser
+ *---------------------------------------------------------------
+ *
+ * We need to access our dependencies & autloader..
+ */
+$container = require __DIR__ . DS . '..' . DS . 'bootstrap.php';
+
+/**
+ *---------------------------------------------------------------
+ * Forwrard to VISU command line interface handler
+ *---------------------------------------------------------------
+ * 
+ * VISU will evaluate the argument vector here and forward 
+ * to the appropriate command.
+ */
+$container->get('visu.command.cli_loader')->pass($argv);
