@@ -52,7 +52,9 @@ Also for time sake I did cut a few corners, so the code is not as clean as I wou
      * Support for High DPI displays, meaning on retina displays the game will be rendered at a higher internal resolution.
      * The number of pipes rendered is based on the viewport and automatically adjusts to the window size.
 
-    | Image 1    | Image 2     |
+    
+
+    | Vertical   | Horizontal  |
     |------------|-------------|
-    | <img src="https://github.com/phpgl/flappyphpant/assets/956212/b72cd792-927a-438d-839a-030653cfc34e" width="400"> | <img src="https://github.com/phpgl/flappyphpant/assets/956212/19fb28e9-5156-404f-9144-b8b5edeb90b9" width="400"> |
+    | <img width="400" src="https://github.com/phpgl/flappyphpant/assets/956212/10238007-f2ce-4e87-9e8c-c307e3f53a13"> | <img src="https://github.com/phpgl/flappyphpant/assets/956212/b72cd792-927a-438d-839a-030653cfc34e" width="400"> |
     
