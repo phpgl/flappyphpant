@@ -1,9 +1,9 @@
-# Flappyphpant
+# FlappyPHPant
 
-A very simple flappybird clone written in PHP build on PHP-GLFW and the VISU framework.
+A very simple Flappy Bird clone written in PHP, built on PHP-GLFW and the VISU framework.
 
 <p align="center">
-   <img width="640" src="https://github.com/phpgl/flappyphpant/assets/956212/c48d9c68-427e-4d92-a875-8ed9dc8ba2da" alt="Flappyphpant 2D PHP Game">
+   <img width="640" src="https://github.com/phpgl/flappyelephant/assets/956212/c48d9c68-427e-4d92-a875-8ed9dc8ba2da" alt="FlappyPHPant 2D PHP Game">
 </p>
 
 ## Installation
@@ -26,28 +26,27 @@ bash bin/play
 
 ## Features
 
-A lot of this is complete overkill for a simple flappybird game, but I see this as an example project how you could be build a 2D game with PHP-GLFW and VISU.
+A lot of this is complete overkill for a simple Flappy Bird game, but I see this as an example project to demonstrate how you could build a 2D game with PHP-GLFW and VISU.
 
-Also for time sake I did cut a few corners, so the code is not as clean as I would like it to be.
+Also, for time's sake, I cut a few corners, so the code is not as clean as I would like it to be.
 
  - **Decoupled Simulation from Rendering**
 
    The `render` and `update` functions are decoupled. 
-   This means the game simulation aka `update()` runs at a fixed rate while the rendering aka `render()` runs as fast as possible.
-   (Or when vsync is enabled at the refresh rate of the monitor)
-   The player movement is interpolated between the last and the current simulation step. Allowing smooth movement even when the simulation is running 
-   significantly slower than the rendering.
+   This means the game simulation (aka `update()`) runs at a fixed rate while the rendering (aka `render()`) runs as fast as possible.
+   (Or when vsync is enabled, at the refresh rate of the monitor)
+   The player movement is interpolated between the last and the current simulation step, allowing smooth movement even when the simulation is running significantly slower than the rendering.
    
    <img width="634" alt="s" src="https://github.com/phpgl/flappyphpant/assets/956212/eb7c1d03-a1bc-497f-806a-a95da00d7f43">
 
-   Flappyphpant specically has a tickrate of `60ups` but can render at about `3000fps` with a resolution of `2560x1440` on a M1 MacBook Pro.
+   FlappyPHPant specifically has a tickrate of `60ups` but can render at about `3000fps` with a resolution of `2560x1440` on an M1 MacBook Pro.
 
-   _I was honestly really surprised how good the frametimes considering the entire framework is written in PHP._
+   _I was honestly really surprised how good the frametimes are considering the entire framework is written in PHP._
 
  - **Proper 2D Camera**
 
-    The camera unlike the real flappybird is not fixed to a vertical resolution. 
-    The window can be resized to any resolution and aspect ratio you want and the game should scale properly.
+    The camera, unlike the real Flappy Bird, is not fixed to a vertical resolution. 
+    The window can be resized to any resolution and aspect ratio you want, and the game should scale properly.
 
      * Support for High DPI displays, meaning on retina displays the game will be rendered at a higher internal resolution.
      * The number of pipes rendered is based on the viewport and automatically adjusts to the window size.
@@ -58,8 +57,7 @@ Also for time sake I did cut a few corners, so the code is not as clean as I wou
     
  - **Abstracted Input Handling**
 
-    Input handling can get messy fast, this example utilizes Input and Action maps to abstract the input handling and 
-    theoretically allow for easy remapping of the controls.
+    Input handling can get messy quickly; this example utilizes Input and Action maps to abstract the input handling and theoretically allow for easy remapping of the controls.
 
     ```php
      // apply jump
@@ -72,7 +70,7 @@ Also for time sake I did cut a few corners, so the code is not as clean as I wou
 
  - **Entity Component System**
 
-    This example ueses an Entity Component System to manage the game objects and share state between the different systems.
+    This example uses an Entity Component System to manage the game objects and share state between the different systems.
 
     ```php
     $playerEntity = $entities->create()
@@ -81,13 +79,12 @@ Also for time sake I did cut a few corners, so the code is not as clean as I wou
     $entities->attach($playerEntity, new Transform);
     ```
 
-    This kinda game is unfortunately not the best example for an ECS.
+    This kind of game is unfortunately not the best example for an ECS.
 
  - **Simple Sprite Renderer**
 
     This project showcases a simple sprite renderer that can render individual sprites from a sprite sheet.
-    This is used to render the animated player elephant as well as the pipes. Nothing complex but should give you 
-    a starting point if you want to build a 2D game with VISU.
+    This is used to render the animated player elephant as well as the pipes. Nothing complex but should give you a starting point if you want to build a 2D game with VISU.
 
  - **Very Basic AABB Collision Detection**
 
