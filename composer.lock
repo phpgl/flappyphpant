@@ -1,0 +1,331 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a622b4ac004f223eb75e89d80845822f",
+    "packages": [
+        {
+            "name": "clancats/container",
+            "version": "v1.3.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ClanCats/Container.git",
+                "reference": "f203ed28e66e94c4094b4852af44986e0f5153fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ClanCats/Container/zipball/f203ed28e66e94c4094b4852af44986e0f5153fa",
+                "reference": "f203ed28e66e94c4094b4852af44986e0f5153fa",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "composer/composer": "^2.3",
+                "phpstan/phpstan": "^1.5",
+                "phpunit/phpunit": "^9.0",
+                "vimeo/psalm": "5.x-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ClanCats\\Container\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ClanCats IoC Container.",
+            "support": {
+                "issues": "https://github.com/ClanCats/Container/issues",
+                "source": "https://github.com/ClanCats/Container/tree/v1.3.5"
+            },
+            "time": "2023-07-21T11:30:02+00:00"
+        },
+        {
+            "name": "league/climate",
+            "version": "3.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/climate.git",
+                "reference": "a785a3ac8f584eed4abd45e4e16fe64c46659a28"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/climate/zipball/a785a3ac8f584eed4abd45e4e16fe64c46659a28",
+                "reference": "a785a3ac8f584eed4abd45e4e16fe64c46659a28",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3 || ^8.0",
+                "psr/log": "^1.0 || ^2.0 || ^3.0",
+                "seld/cli-prompt": "^1.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "^1.6.10",
+                "mockery/mockery": "^1.4.2",
+                "phpunit/phpunit": "^9.5.10"
+            },
+            "suggest": {
+                "ext-mbstring": "If ext-mbstring is not available you MUST install symfony/polyfill-mbstring"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "League\\CLImate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joe Tannenbaum",
+                    "email": "hey@joe.codes",
+                    "homepage": "http://joe.codes/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Craig Duncan",
+                    "email": "git@duncanc.co.uk",
+                    "homepage": "https://github.com/duncan3dc",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP's best friend for the terminal. CLImate allows you to easily output colored text, special formats, and more.",
+            "keywords": [
+                "cli",
+                "colors",
+                "command",
+                "php",
+                "terminal"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/climate/issues",
+                "source": "https://github.com/thephpleague/climate/tree/3.8.2"
+            },
+            "time": "2022-06-18T14:42:08+00:00"
+        },
+        {
+            "name": "phpgl/ide-stubs",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpgl/ide-stubs.git",
+                "reference": "39abde3eb8ca023a71f93b5e90bec2f4e9c6f5ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpgl/ide-stubs/zipball/39abde3eb8ca023a71f93b5e90bec2f4e9c6f5ac",
+                "reference": "39abde3eb8ca023a71f93b5e90bec2f4e9c6f5ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mario Döring",
+                    "homepage": "https://github.com/mario-deluna"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/phpgl/ide-stubs/graphs/contributors"
+                }
+            ],
+            "description": "IDE Stubs for PHP-GLFW / OpenGL. (PHPStorm, VSCode, etc.)",
+            "homepage": "https://phpgl.net",
+            "keywords": [
+                "3d",
+                "Rendering",
+                "autocomplete",
+                "glfw",
+                "opengl",
+                "php-glfw",
+                "phpstorm"
+            ],
+            "support": {
+                "issues": "https://github.com/phpgl/ide-stubs/issues",
+                "source": "https://github.com/phpgl/ide-stubs/tree/main"
+            },
+            "time": "2023-03-14T23:03:57+00:00"
+        },
+        {
+            "name": "phpgl/visu",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpgl/visu.git",
+                "reference": "71f036a5c5eed2092ece7c32bbeac0e17c9192e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpgl/visu/zipball/71f036a5c5eed2092ece7c32bbeac0e17c9192e7",
+                "reference": "71f036a5c5eed2092ece7c32bbeac0e17c9192e7",
+                "shasum": ""
+            },
+            "require": {
+                "clancats/container": "^1.3",
+                "league/climate": "^3.8",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpbench/phpbench": "^1.2",
+                "phpgl/ide-stubs": "dev-main",
+                "phpstan/phpstan": "^1.8",
+                "phpunit/phpunit": "^9.5"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "container": {
+                    "@main": "visu.ctn"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VISU\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Modern OpenGL Framework for PHP, ex php-game-framework.",
+            "support": {
+                "issues": "https://github.com/phpgl/visu/issues",
+                "source": "https://github.com/phpgl/visu/tree/master"
+            },
+            "time": "2023-07-31T20:28:38+00:00"
+        },
+        {
+            "name": "psr/log",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Log\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "homepage": "https://github.com/php-fig/log",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/3.0.0"
+            },
+            "time": "2021-07-14T16:46:02+00:00"
+        },
+        {
+            "name": "seld/cli-prompt",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/cli-prompt.git",
+                "reference": "b8dfcf02094b8c03b40322c229493bb2884423c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/cli-prompt/zipball/b8dfcf02094b8c03b40322c229493bb2884423c5",
+                "reference": "b8dfcf02094b8c03b40322c229493bb2884423c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.63"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Seld\\CliPrompt\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                }
+            ],
+            "description": "Allows you to prompt for user input on the command line, and optionally hide the characters they type",
+            "keywords": [
+                "cli",
+                "console",
+                "hidden",
+                "input",
+                "prompt"
+            ],
+            "support": {
+                "issues": "https://github.com/Seldaek/cli-prompt/issues",
+                "source": "https://github.com/Seldaek/cli-prompt/tree/1.0.4"
+            },
+            "time": "2020-12-15T21:32:01+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "phpgl/ide-stubs": 20,
+        "phpgl/visu": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}
