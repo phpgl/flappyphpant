@@ -3,7 +3,7 @@
 A very simple Flappy Bird clone written in PHP, built on PHP-GLFW and the VISU framework.
 
 <p align="center">
-   <img width="640" src="https://github.com/phpgl/flappyelephant/assets/956212/c48d9c68-427e-4d92-a875-8ed9dc8ba2da" alt="FlappyPHPant 2D PHP Game">
+   <img width="640" src="https://github.com/phpgl/flappyphpant/assets/956212/c48d9c68-427e-4d92-a875-8ed9dc8ba2da" alt="FlappyPHPant 2D PHP Game">
 </p>
 
 ## Installation
