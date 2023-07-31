@@ -93,7 +93,7 @@ class SpritePass extends RenderPass
             {
                 $transform = $this->entities->get($entity, Transform::class);
                 $sprite = $this->entities->get($entity, SpriteComponent::class);
-                $buffer->pushMat4($transform->getLocalMatrix());
+                $buffer->pushMat4($transform->getInterpolatedLocalMatrix($cameraData->compensation));
                 $buffer->push($sprite->spriteFrame);
             }
 

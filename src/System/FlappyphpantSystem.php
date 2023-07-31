@@ -8,12 +8,11 @@ use App\Component\PlayerComponent;
 use GL\Math\{GLM, Quat, Vec2, Vec3};
 use VISU\ECS\EntitiesInterface;
 use VISU\ECS\SystemInterface;
-use VISU\Geo\Math;
 use VISU\Geo\Transform;
 use VISU\Graphics\Rendering\RenderContext;
 use VISU\OS\InputContextMap;
 
-class VisuPhpantSystem implements SystemInterface
+class FlappyPHPantSystem implements SystemInterface
 {   
     /**
      * Constructor
@@ -34,10 +33,20 @@ class VisuPhpantSystem implements SystemInterface
         $entities->registerComponent(SpriteComponent::class);
         $entities->registerComponent(PlayerComponent::class);
 
-        $entity = $entities->create();
-        $spite = $entities->attach($entity, new SpriteComponent('visuphpant2.png'));
-        $player = $entities->attach($entity, new PlayerComponent);
-        $transform = $entities->attach($entity, new Transform);
+        $this->setupPlayerEntity($entities, $entities->create());
+    }
+
+    /**
+     * Create the requried components for the player entity
+     */
+    private function setupPlayerEntity(EntitiesInterface $entities, int $playerEntity) : void
+    {
+        // remove the components if they exist
+        $entities->detachAll($playerEntity);
+
+        $entities->attach($playerEntity, new SpriteComponent('visuphpant2.png'));
+        $entities->attach($playerEntity, new PlayerComponent);
+        $transform = $entities->attach($playerEntity, new Transform);
         $transform->position = new Vec3(0, 0, 0);
         $transform->scale = new Vec3(-7, 7, 1);
     }
@@ -69,22 +78,41 @@ class VisuPhpantSystem implements SystemInterface
             }
         }
 
+        $playerEntity = $entities->firstWith(PlayerComponent::class);
+        $playerComponent = $entities->get($playerEntity, PlayerComponent::class);
+        $playerTransform = $entities->get($playerEntity, Transform::class);
+        $playerTransform->storePrevious();
+
         // reset the game
         if ($this->inputContext->actions->didButtonPress('reset')) {
             $gameState->paused = true;
             $gameState->waitingForStart = true;
             $gameState->tick = 0;
-            $playerEntity = $entities->firstWith(PlayerComponent::class);
-            $playerTransform = $entities->get($playerEntity, Transform::class);
-            $playerTransform->position->x = 0;
-            $playerTransform->position->y = 0;
+            // reset player
+            $this->setupPlayerEntity($entities, $playerEntity);
+            return;
         }
 
+        if ($gameState->paused) {
+            return;
+        }
+
+        // update the player during play
+        if ($playerComponent->dying) {
+            $this->updateDuringDeath($entities);
+        } else {
+            $this->updateDuringPlay($entities);
+        }
+    }
+
+    /**
+     * Update the player movement during play
+     */
+    public function updateDuringPlay(EntitiesInterface $entities) : void
+    {
         $playerEntity = $entities->firstWith(PlayerComponent::class);
-        $playerTransform = $entities->get($playerEntity, Transform::class);
-        $playerTransform->position->x = $playerTransform->position->x + 1;
-        $playerTransform->markDirty();
         $playerComponent = $entities->get($playerEntity, PlayerComponent::class);
+        $playerTransform = $entities->get($playerEntity, Transform::class);
 
         // count jump tick
         $playerComponent->jumpTick++;
@@ -99,8 +127,12 @@ class VisuPhpantSystem implements SystemInterface
         $playerComponent->velocity -= $playerComponent->gravity;
 
         // apply velocity
-        $playerTransform->position->x = $playerTransform->position->x + $playerComponent->speed;
-        $playerTransform->position->y = $playerTransform->position->y + $playerComponent->velocity;
+        $playerComponent->position->x = $playerComponent->position->x + $playerComponent->speed;
+        $playerComponent->position->y = $playerComponent->position->y + $playerComponent->velocity;
+        
+        // copy the player position to the transform
+        $playerTransform->position->x = $playerComponent->position->x;
+        $playerTransform->position->y = $playerComponent->position->y;
 
         // change the displayed sprite frame based on the jump tick
         $spriteComponent = $entities->get($playerEntity, SpriteComponent::class);
@@ -110,6 +142,38 @@ class VisuPhpantSystem implements SystemInterface
             $spriteComponent->spriteFrame = 1;
         } else {
             $spriteComponent->spriteFrame = 0;
+        }
+    }
+
+    /**
+     * Update the player movement during death
+     */
+    public function updateDuringDeath(EntitiesInterface $entities) : void
+    {
+        $playerEntity = $entities->firstWith(PlayerComponent::class);
+        $playerComponent = $entities->get($playerEntity, PlayerComponent::class);
+        $playerTransform = $entities->get($playerEntity, Transform::class);
+        $spriteComponent = $entities->get($playerEntity, SpriteComponent::class);
+        $spriteComponent->spriteFrame = 2;
+
+        $playerComponent->speed = $playerComponent->speed * 0.99;
+
+        $playerTransform->position->x = $playerTransform->position->x - $playerComponent->speed;
+        $playerTransform->orientation->rotate($playerComponent->speed / 5, new Vec3(0, 0, 1));
+
+        // apply gravity
+        $playerComponent->velocity -= $playerComponent->gravity;
+
+        // dampen velocity
+        $playerComponent->velocity = $playerComponent->velocity * 0.97;
+
+        // apply velocity
+        $playerTransform->position->y = $playerTransform->position->y + $playerComponent->velocity;
+
+        // floor
+        if ($playerTransform->position->y < -45) {
+            $playerTransform->position->y = -45;
+            $playerComponent->velocity = $playerComponent->velocity * -1;
         }
     }
 

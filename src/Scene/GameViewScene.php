@@ -3,12 +3,13 @@
 namespace App\Scene;
 
 use App\Component\GlobalStateComponent;
+use App\Debug\DebugTextOverlay;
 use App\Signals\SwitchToSceneSignal;
 use GameContainer;
 use App\System\CameraSystem2D;
 use App\System\PipeSystem;
 use App\System\RenderingSystem2D;
-use App\System\VisuPhpantSystem;
+use App\System\FlappyPHPantSystem;
 use VISU\Graphics\Rendering\Pass\BackbufferData;
 use VISU\Graphics\Rendering\Pass\ClearPass;
 use VISU\Graphics\Rendering\RenderContext;
@@ -42,7 +43,7 @@ class GameViewScene extends BaseScene
     /**
      * system: Phpants
      */
-    private VisuPhpantSystem $visuPhpantSystem;
+    private FlappyPHPantSystem $visuPhpantSystem;
 
     /**
      * system: Pipes
@@ -86,7 +87,7 @@ class GameViewScene extends BaseScene
         );
 
         // the thing moving the flying phpants
-        $this->visuPhpantSystem = new VisuPhpantSystem(
+        $this->visuPhpantSystem = new FlappyPHPantSystem(
             $this->container->resolveInputContext()
         );
 
@@ -186,8 +187,15 @@ class GameViewScene extends BaseScene
      */
     public function render(RenderContext $context): void
     {
+        // output some general game view stats
+        $gameState = $this->entities->getSingleton(GlobalStateComponent::class);
+        DebugTextOverlay::debugString(sprintf('Score: %d, tick: %d', $gameState->score, $gameState->tick));
+
         // update the camera
         $this->cameraSystem->render($this->entities, $context);
+
+        // pipe system needs to adjust the pipes to the camera
+        $this->pipeSystem->render($this->entities, $context);
 
         // let the rendering system render the scene
         $this->renderingSystem->render($this->entities, $context);

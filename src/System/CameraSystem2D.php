@@ -101,10 +101,6 @@ class CameraSystem2D extends VISUCameraSystem
         $playerEntity = $entities->firstWith(PlayerComponent::class);
         $playerTransform = $entities->get($playerEntity, Transform::class);
 
-        // because the camera is attached to the player
-        // we have to disable interpolation to avoid jittering
-        $camera->allowInterpolation = false;
-
         // copy the player position to the camera
         $camera->transform->markDirty();
         $camera->transform->position = new Vec3(

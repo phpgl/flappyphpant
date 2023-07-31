@@ -14,7 +14,7 @@ class PlayerComponent
     /**
      * Players speed
      */
-    public float $speed = 0.2;
+    public float $speed = 1.2;
 
     /**
      * Players jump force
@@ -33,9 +33,20 @@ class PlayerComponent
     public int $jumpTick = 0;
 
     /**
+     * The players position
+     */
+    public Vec2 $position;
+
+    /**
+     * Boolean if the player is currently dying 
+     */
+    public bool $dying = false;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
+        $this->position = new Vec2(0, 0);
     }
 }

@@ -20,4 +20,11 @@ class GlobalStateComponent
      * Boolean if the game is waiting to start
      */
     public bool $waitingForStart = true;
+
+    /**
+     * The current score
+     * 
+     * @var int
+     */
+    public int $score = 0;
 }

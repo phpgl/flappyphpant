@@ -4,6 +4,7 @@ namespace App\Renderer;
 
 use App\Component\SpriteComponent;
 use App\Component\GlobalStateComponent;
+use App\Component\PlayerComponent;
 use GL\Math\Vec3;
 use VISU\ECS\EntitiesInterface;
 use VISU\Geo\Transform;
@@ -86,7 +87,8 @@ class BackgroundRenderer
             // execute
             function(PipelineContainer $data, PipelineResources $resources) use($renderTarget, $entities)
             {
-                $gameState = $entities->getSingleton(GlobalStateComponent::class);
+                $playerEntity = $entities->firstWith(PlayerComponent::class);
+                $playerTransform = $entities->get($playerEntity, Transform::class);
 
                 $resources->activateRenderTarget($renderTarget);
 
@@ -128,7 +130,7 @@ class BackgroundRenderer
                 $this->backgroundShader->setUniformMat4('u_model', false, $transform->getLocalMatrix());
                 
                 // determine the background movement based
-                $this->backgroundShader->setUniform1f('bgmove', $gameState->tick * 0.0001);
+                $this->backgroundShader->setUniform1f('bgmove', $playerTransform->position->x * 0.0003);
 
 
                 $this->backgroundVA->draw();
