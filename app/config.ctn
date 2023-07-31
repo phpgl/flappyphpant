@@ -7,7 +7,7 @@
 /**
  * Application basics
  */
-:project.name: '{{ project_name }}'
+:project.name: 'Flappyphphant'
 :project.version: 'v0.1'
 
 /**

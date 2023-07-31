@@ -271,12 +271,24 @@ class PipeSystem implements SystemInterface
             return;
         }
 
-        // check if the player is colliding with any of the pipes
-        $playerAABB = new AABB2D(
-            new Vec2($playerTransform->position->x, $playerTransform->position->y),
-            new Vec2($playerTransform->position->x + 1, $playerTransform->position->y + 1)
-        );
+        // construct the player aabb
+        // for the player we are going to be a bit forgiving 
+        // and scale the abb a bit down
+        $playerAABB = $spriteAABB->copy(); 
+        $playerAABB->applyTransform($playerTransform);
+        $playerAABB->min->x = $playerAABB->min->x + 1.5;
+        $playerAABB->max->x = $playerAABB->max->x - 1.5;
+        $playerAABB->min->y = $playerAABB->min->y + 1.0;
+        $playerAABB->max->y = $playerAABB->max->y - 3.5;
+        
+        // D3D::aabb2D(
+        //     new Vec2(),
+        //     $playerAABB->min,
+        //     $playerAABB->max,
+        //     D3D::$colorGreen
+        // );
 
+        // check if the player is colliding with any of the pipes
         foreach($aabbs as $aabb) {
             if ($aabb->intersects($playerAABB)) {
                 Logger::info('Player collided with pipe');
