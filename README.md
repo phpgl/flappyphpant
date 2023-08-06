@@ -3,7 +3,7 @@
 A very simple Flappy Bird clone written in PHP, built on [PHP-GLFW](http://github.com/mario-deluna/php-glfw) and the [VISU](https://github.com/phpgl/visu) framework.
 
 <p align="center">
-   <img width="640" src="https://github.com/phpgl/flappyphpant/assets/956212/c48d9c68-427e-4d92-a875-8ed9dc8ba2da" alt="FlappyPHPant 2D PHP Game">
+   <img width="640" src="https://github.com/phpgl/flappyphpant/assets/956212/9d32a533-73cb-40e6-b940-7976b765d658" alt="FlappyPHPant 2D PHP Game">
 </p>
 
 ## Installation
@@ -90,3 +90,7 @@ Also, for time's sake, I cut a few corners, so the code is not as clean as I wou
 
     The collision detection is very basic and only checks for collisions between the player AABB and the pipe AABBs.
     It will be infuriating at times as the elephant will collide with the pipes even if it looks like it should not.
+
+ - **Text Rendering**
+   
+    Showcasing a simple example of how to render text labels. I know this might sound underwhelming, but text handling can be pretty darn annoying.
