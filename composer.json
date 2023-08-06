@@ -17,7 +17,7 @@
     },
     "require": {
         "phpgl/ide-stubs": "dev-main",
-        "phpgl/visu": "dev-master"
+        "phpgl/visu": "@dev"
     },
     "scripts": {
         "post-root-package-install": [

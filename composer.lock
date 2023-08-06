@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a622b4ac004f223eb75e89d80845822f",
+    "content-hash": "910a530264d015432d9dbef0d976975c",
     "packages": [
         {
             "name": "clancats/container",
@@ -168,12 +168,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpgl/visu.git",
-                "reference": "71f036a5c5eed2092ece7c32bbeac0e17c9192e7"
+                "reference": "dc70a6d71cb54e1dbd7c51f6ab395d8bcb48eaaf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpgl/visu/zipball/71f036a5c5eed2092ece7c32bbeac0e17c9192e7",
-                "reference": "71f036a5c5eed2092ece7c32bbeac0e17c9192e7",
+                "url": "https://api.github.com/repos/phpgl/visu/zipball/dc70a6d71cb54e1dbd7c51f6ab395d8bcb48eaaf",
+                "reference": "dc70a6d71cb54e1dbd7c51f6ab395d8bcb48eaaf",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                 "issues": "https://github.com/phpgl/visu/issues",
                 "source": "https://github.com/phpgl/visu/tree/master"
             },
-            "time": "2023-07-31T20:28:38+00:00"
+            "time": "2023-08-06T22:33:52+00:00"
         },
         {
             "name": "psr/log",
