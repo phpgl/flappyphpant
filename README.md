@@ -1,6 +1,6 @@
 # FlappyPHPant
 
-A very simple Flappy Bird clone written in PHP, built on [PHP-GLFW](http://github.com/mario-deluna/php-glfw) and the [VISU](https://github.com/phpgl/visu) framework.
+A very simple Flappy Bird like game written in PHP, built on [PHP-GLFW](http://github.com/mario-deluna/php-glfw) and the [VISU](https://github.com/phpgl/visu) framework.
 
 <p align="center">
    <img width="640" src="https://github.com/phpgl/flappyphpant/assets/956212/9d32a533-73cb-40e6-b940-7976b765d658" alt="FlappyPHPant 2D PHP Game">
