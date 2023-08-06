@@ -24,6 +24,14 @@ composer install
 bash bin/play
 ```
 
+ * Press `space` to jump
+ * Press `R` to reset
+
+
+I really suck at the game, so if you surpass my score, please refrain from tweeting at me and making me feel ashamed.
+
+https://github.com/phpgl/flappyphpant/assets/956212/2f2a13e1-702f-416c-b060-9aa51f1fbe0c
+
 ## Features
 
 A lot of this is complete overkill for a simple Flappy Bird game, but I see this as an example project to demonstrate how you could build a 2D game with PHP-GLFW and VISU.
