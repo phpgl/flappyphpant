@@ -6,6 +6,7 @@ use App\Component\SpriteComponent;
 use App\Component\GlobalStateComponent;
 use App\Component\PlayerComponent;
 use GL\Math\{GLM, Quat, Vec2, Vec3};
+use VISU\Component\DynamicTextLabelComponent;
 use VISU\ECS\EntitiesInterface;
 use VISU\ECS\SystemInterface;
 use VISU\Geo\Transform;
@@ -14,6 +15,16 @@ use VISU\OS\InputContextMap;
 
 class FlappyPHPantSystem implements SystemInterface
 {   
+    /**
+     * The entity to hold the score label
+     */
+    private int $scoreLabelEntity;
+
+    /**
+     * The Current HighScore label
+     */
+    private int $highScoreLabelEntity;
+
     /**
      * Constructor
      */
@@ -32,8 +43,10 @@ class FlappyPHPantSystem implements SystemInterface
     {
         $entities->registerComponent(SpriteComponent::class);
         $entities->registerComponent(PlayerComponent::class);
+        $entities->registerComponent(DynamicTextLabelComponent::class);
 
         $this->setupPlayerEntity($entities, $entities->create());
+        $this->setupScoreLabel($entities);
     }
 
     /**
@@ -44,11 +57,43 @@ class FlappyPHPantSystem implements SystemInterface
         // remove the components if they exist
         $entities->detachAll($playerEntity);
 
-        $entities->attach($playerEntity, new SpriteComponent('visuphpant2.png'));
+        $entities->attach($playerEntity, new SpriteComponent('visuphpant3.png'));
         $entities->attach($playerEntity, new PlayerComponent);
         $transform = $entities->attach($playerEntity, new Transform);
         $transform->position = new Vec3(0, 0, 0);
         $transform->scale = new Vec3(-7, 7, 1);
+    }
+
+    /**
+     * Create the score label
+     */
+    private function setupScoreLabel(EntitiesInterface $entities) : void
+    {
+        $this->scoreLabelEntity = $entities->create();
+        $entities->attach($this->scoreLabelEntity, new DynamicTextLabelComponent(
+            text: '',
+            isStatic: true,
+        ));
+        $transform = $entities->attach($this->scoreLabelEntity, new Transform);
+        $transform->position = new Vec3(0, 40, 0);
+        $transform->scale = new Vec3(0.5);
+
+        $this->highScoreLabelEntity = $entities->create();
+        $entities->attach($this->highScoreLabelEntity, new DynamicTextLabelComponent(
+            text: '',
+        ));
+        $transform = $entities->attach($this->highScoreLabelEntity, new Transform);
+        $transform->position = new Vec3(0, 30, 0);
+        $transform->scale = new Vec3(0.5);
+
+        // also create a "Press Space to Start" label
+        $startLabelEntity = $entities->create();
+        $entities->attach($startLabelEntity, new DynamicTextLabelComponent(
+            text: 'Press Space to Start'
+        ));
+        $transform = $entities->attach($startLabelEntity, new Transform);
+        $transform->position = new Vec3(0, -20, 0);
+        $transform->scale = new Vec3(0.5);
     }
 
     /**
@@ -68,6 +113,20 @@ class FlappyPHPantSystem implements SystemInterface
     public function update(EntitiesInterface $entities) : void
     {
         $gameState = $entities->getSingleton(GlobalStateComponent::class);
+
+        // update the score label
+        $scoreLabel = $entities->get($this->scoreLabelEntity, DynamicTextLabelComponent::class);
+        if ($gameState->score > 0) {
+            $scoreLabel->text = 'Score: ' . $gameState->score;
+        } else {
+            $scoreLabel->text = '';
+        }
+
+        // update the highscore label
+        $highScoreLabel = $entities->get($this->highScoreLabelEntity, DynamicTextLabelComponent::class);
+        $highScoreLabel->text = 'High Score: ' . $gameState->highScore;
+
+        // waiting for start 
         if ($gameState->waitingForStart) {
 
             if ($this->inputContext->actions->didButtonPress('jump')) {

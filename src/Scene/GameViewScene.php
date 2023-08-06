@@ -140,11 +140,16 @@ class GameViewScene extends BaseScene
             $this->handleKeyboardEvent($signal);
         });
         
+        // create a glboal state singleton
+        $globalStateComponent = new GlobalStateComponent;
+        // read the highscore from disk if it exists
+        if (file_exists(VISU_PATH_CACHE . '/highscore.txt')) {
+            $globalStateComponent->highScore = (int) file_get_contents(VISU_PATH_CACHE . '/highscore.txt');
+        }
+        $this->entities->setSingleton($globalStateComponent);
+
         // register the systems
         $this->registerSystems();
-
-        // create a glboal state singleton
-        $this->entities->setSingleton(new GlobalStateComponent);
     }
 
     /**
@@ -154,6 +159,10 @@ class GameViewScene extends BaseScene
      */
     public function unload(): void
     {
+        // write the highscore to disk
+        $gameState = $this->entities->getSingleton(GlobalStateComponent::class);
+        file_put_contents(VISU_PATH_CACHE . '/highscore.txt', (string) $gameState->highScore);
+
         parent::unload();
         $this->container->resolveVisuDispatcher()->unregister('input.key', $this->keyboardHandlerId);
         $this->container->resolveVisuDispatcher()->unregister(DebugConsole::EVENT_CONSOLE_COMMAND, $this->consoleHandlerId);
@@ -177,6 +186,9 @@ class GameViewScene extends BaseScene
         $this->cameraSystem->update($this->entities);
         $this->visuPhpantSystem->update($this->entities);
         $this->pipeSystem->update($this->entities);
+
+        // update the rendering system
+        $this->renderingSystem->update($this->entities);
     }
 
     /**

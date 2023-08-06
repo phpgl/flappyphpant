@@ -181,6 +181,7 @@ class PipeSystem implements SystemInterface
         // update the games score based on it
         $globalState = $entities->getSingleton(GlobalStateComponent::class);
         $globalState->score = $centerPipeIndex;
+        $globalState->highScore = max($globalState->highScore, $globalState->score);
 
         // now our starting pipe is always the center pipe - half the pipe count
         $pipeIndex = (int) max(0, $centerPipeIndex - (int) floor($pipeCount / 2));
@@ -276,10 +277,10 @@ class PipeSystem implements SystemInterface
         // and scale the abb a bit down
         $playerAABB = $spriteAABB->copy(); 
         $playerAABB->applyTransform($playerTransform);
-        $playerAABB->min->x = $playerAABB->min->x + 1.5;
-        $playerAABB->max->x = $playerAABB->max->x - 1.5;
-        $playerAABB->min->y = $playerAABB->min->y + 1.0;
-        $playerAABB->max->y = $playerAABB->max->y - 3.5;
+        $playerAABB->min->x = $playerAABB->min->x + 2.5;
+        $playerAABB->max->x = $playerAABB->max->x - 2.5;
+        $playerAABB->min->y = $playerAABB->min->y + 2.8;
+        $playerAABB->max->y = $playerAABB->max->y - 4.0;
         
         // D3D::aabb2D(
         //     new Vec2(),

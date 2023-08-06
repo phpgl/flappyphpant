@@ -14,7 +14,10 @@ use VISU\Graphics\Rendering\Pass\BackbufferData;
 use VISU\Graphics\Rendering\Pass\CameraData;
 use VISU\Graphics\Rendering\Pass\ClearPass;
 use VISU\Graphics\Rendering\RenderContext;
+use VISU\Graphics\Rendering\Renderer\DebugOverlayTextRenderer;
 use VISU\Graphics\Rendering\Renderer\FullscreenTextureRenderer;
+use VISU\Graphics\Rendering\Renderer\TextLabelRenderer;
+use VISU\Graphics\Rendering\Renderer\TextLabelRenderer\TextLabel;
 use VISU\Graphics\ShaderCollection;
 use VISU\Graphics\TextureOptions;
 
@@ -36,6 +39,11 @@ class RenderingSystem2D implements SystemInterface
     private FullscreenTextureRenderer $fullscreenRenderer;
 
     /**
+     * Text Label Renderer
+     */
+    private TextLabelRenderer $textLabelRenderer;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -46,6 +54,7 @@ class RenderingSystem2D implements SystemInterface
         $this->backgroundRenderer = new BackgroundRenderer($this->gl, $this->shaders);
         $this->spriteRenderer = new SpriteRenderer($this->gl, $this->shaders);
         $this->fullscreenRenderer = new FullscreenTextureRenderer($this->gl);
+        $this->textLabelRenderer = new TextLabelRenderer($this->gl, $this->shaders);
     }
     
     /**
@@ -56,6 +65,9 @@ class RenderingSystem2D implements SystemInterface
     public function register(EntitiesInterface $entities) : void
     {
         $entities->registerComponent(Transform::class);
+        $entities->registerComponent(TextLabel::class);
+
+        $this->textLabelRenderer->loadFont('debug', DebugOverlayTextRenderer::loadDebugFontAtlas());
     }
 
     /**
@@ -74,6 +86,7 @@ class RenderingSystem2D implements SystemInterface
      */
     public function update(EntitiesInterface $entities) : void
     {
+        $this->textLabelRenderer->synchroniseWithEntites($entities);
     }
 
     /**
@@ -106,6 +119,9 @@ class RenderingSystem2D implements SystemInterface
 
         // add the image example pass
         $this->spriteRenderer->attachPass($context->pipeline, $sceneRenderTarget, $entities);
+
+        // add the text label pass
+        $this->textLabelRenderer->attachPass($context->pipeline, $sceneRenderTarget);
 
         // add a pass that renders the scene render target to the backbuffer
         $this->fullscreenRenderer->attachPass($context->pipeline, $backbuffer, $sceneColor);

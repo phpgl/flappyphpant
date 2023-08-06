@@ -27,4 +27,9 @@ class GlobalStateComponent
      * @var int
      */
     public int $score = 0;
+
+    /**
+     * The current highscore
+     */
+    public int $highScore = 0;
 }
