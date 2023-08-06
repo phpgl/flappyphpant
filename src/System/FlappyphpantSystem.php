@@ -143,7 +143,14 @@ class FlappyPHPantSystem implements SystemInterface
         $playerTransform->storePrevious();
 
         // reset the game
-        if ($this->inputContext->actions->didButtonPress('reset')) {
+        if (
+            $this->inputContext->actions->didButtonPress('reset') || 
+            (
+                $playerComponent->dying && 
+                $this->inputContext->actions->didButtonPress('jump') &&
+                $playerComponent->speed < 0.5
+            )
+        ) {
             $gameState->paused = true;
             $gameState->waitingForStart = true;
             $gameState->tick = 0;
