@@ -33,7 +33,7 @@ class PipeSystem implements SystemInterface
     /**
      * The distance between each pipe.
      */
-    private float $pipeDistance = 70;
+    private float $pipeDistance = 60;
 
     /**
      * Start offfset before the first pipe.
@@ -88,7 +88,7 @@ class PipeSystem implements SystemInterface
             $this->pipeHeights[] = $height;
 
             // the gab should be smaller based on the distance traveled
-            $this->pipeGabs[] = max(50.0 - $i * 0.05, 15.0);
+            $this->pipeGabs[] = max(40.0 - $i * 0.05, 15.0);
         }
     }
 

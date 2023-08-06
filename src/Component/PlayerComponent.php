@@ -14,7 +14,7 @@ class PlayerComponent
     /**
      * Players speed
      */
-    public float $speed = 1.2;
+    public float $speed = 1.0;
 
     /**
      * Players jump force
