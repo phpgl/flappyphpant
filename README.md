@@ -27,6 +27,8 @@ bash bin/play
 
  * Press `space` to jump.
  * Press `R` to reset.
+ * Press `F1` to disable the profiler and the debug overlay.
+   _Note: the profiler takes a huge toll on performance as it forces the GPU to sync with the CPU after each render pass._
 
 I really suck at this game, so if you surpass my score, please refrain from tweeting at me and making me feel ashamed.
 
