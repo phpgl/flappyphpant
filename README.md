@@ -1,4 +1,3 @@
-
 # FlappyPHPant
 
 A very simple Flappy Bird-like game written in PHP, built on [PHP-GLFW](http://github.com/mario-deluna/php-glfw) and the [VISU](https://github.com/phpgl/visu) framework.
@@ -9,9 +8,14 @@ A very simple Flappy Bird-like game written in PHP, built on [PHP-GLFW](http://g
 
 ## Installation
 
-Just clone the project and install the dependencies with composer.
+**Make sure the php-glfw extension is installed and enabled.**
 
-Make sure the php-glfw extension is installed and enabled.
+If you havent done so already follow the instructions for your operating system here: 
+ * [MacOS](https://phpgl.net/getting-started/installation/install-macos.html)
+ * [Linux](https://phpgl.net/getting-started/installation/install-linux.html)
+ * [Windows](https://phpgl.net/getting-started/installation/install-windows.html)
+
+Then you can simply clone the project and install the dependencies with composer.
 
 ```bash
 git clone https://github.com/phpgl/flappyphpant.git
