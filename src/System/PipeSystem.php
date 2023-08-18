@@ -79,7 +79,8 @@ class PipeSystem implements SystemInterface
     private function generateMorePipes() : void
     {
         // generate more pipes
-        for($i = 0; $i < 2; $i++) {
+        $ioff = count($this->pipeHeights);
+        for($i = $ioff; $i < $ioff + 100; $i++) {
             $height = mt_rand(-30, 30);
             $this->pipeHeights[] = $height;
 
