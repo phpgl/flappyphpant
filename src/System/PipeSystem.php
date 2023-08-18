@@ -11,6 +11,7 @@ use VISU\D3D;
 use VISU\ECS\EntitiesInterface;
 use VISU\ECS\SystemInterface;
 use VISU\Geo\AABB2D;
+use VISU\Geo\Math;
 use VISU\Geo\Transform;
 use VISU\Graphics\Rendering\Pass\CameraData;
 use VISU\Graphics\Rendering\RenderContext;
@@ -72,6 +73,24 @@ class PipeSystem implements SystemInterface
     private array $pipeEntities = [];
 
     /**
+     * Generates more pipes when needed. (for the players who are actually pass 1000 pipes or
+     * the sneaky little cheaters)
+     */
+    private function generateMorePipes() : void
+    {
+        // generate more pipes
+        $ioff = count($this->pipeHeights);
+        for($i = $ioff; $i < $ioff + 100; $i++) {
+            $height = mt_rand(-30, 30);
+            $this->pipeHeights[] = $height;
+
+            // the gab should be smaller based on the distance traveled
+            $this->pipeGabs[] = max(40.0 - $i * 0.05, 15.0);
+        }
+    }
+
+
+    /**
      * Registers the system, this is where you should register all required components.
      * 
      * @return void 
@@ -83,13 +102,7 @@ class PipeSystem implements SystemInterface
 
         // precaclulate the level by generating the pipe heights
         mt_srand(42);
-        for($i = 0; $i < 1000; $i++) {
-            $height = mt_rand(-30, 30);
-            $this->pipeHeights[] = $height;
-
-            // the gab should be smaller based on the distance traveled
-            $this->pipeGabs[] = max(40.0 - $i * 0.05, 15.0);
-        }
+        $this->generateMorePipes();
     }
 
     /**
@@ -160,6 +173,21 @@ class PipeSystem implements SystemInterface
     }
 
     /**
+     * Simple bounce ease out function
+     */
+    function bounceEaseOut(float $alpha) : float {
+        if ($alpha < (1 / 2.75)) {
+            return 7.5625 * $alpha * $alpha;
+        } else if ($alpha < (2 / 2.75)) {
+            return 7.5625 * ($alpha -= (1.5 / 2.75)) * $alpha + 0.75;
+        } else if ($alpha < (2.5 / 2.75)) {
+            return 7.5625 * ($alpha -= (2.25 / 2.75)) * $alpha + 0.9375;
+        } else {
+            return 7.5625 * ($alpha -= (2.625 / 2.75)) * $alpha + 0.984375;
+        }
+    }
+
+    /**
      * Updates handler, this is where the game state should be updated.
      * 
      * @return void 
@@ -169,6 +197,7 @@ class PipeSystem implements SystemInterface
         $playerEntity = $entities->firstWith(PlayerComponent::class);
         $playerTransform = $entities->get($playerEntity, Transform::class);
         $playerComponent = $entities->get($playerEntity, PlayerComponent::class);
+        $playerSprite = $entities->get($playerEntity, SpriteComponent::class);
 
         $traveledDistance = $playerTransform->position->x;
 
@@ -196,6 +225,30 @@ class PipeSystem implements SystemInterface
             new Vec2(1, 1)
         );
 
+        // create a floor and ceiling aabb
+        $floorAABB = $spriteAABB->copy();
+        $floorAABB->min->y = -450;
+        $floorAABB->max->y = -50;
+        $floorAABB->min->x = $this->pipeStartOffset + $this->pipeSize;
+        // if could make the floor and ceiling collider follow the player
+        // or make this value bigger, but i decided if you make it this far you deserve a bug
+        $floorAABB->max->x = 10000; 
+
+        $ceilingAABB = $spriteAABB->copy();
+        $ceilingAABB->min->y = 50;
+        $ceilingAABB->max->y = 500;
+        $ceilingAABB->min->x = $this->pipeStartOffset;
+        $ceilingAABB->max->x = 10000;
+        
+        // add the floor and ceiling aabb
+        $aabbs[] = $floorAABB;
+        $aabbs[] = $ceilingAABB;
+
+        // make more pipes when we are running out of pipes
+        while (($pipeIndex + count($this->pipeEntities)) > count($this->pipeHeights)) {
+            $this->generateMorePipes();
+        }
+
         // translate the existing pipes to their intended positions
         $it = 0;
         foreach($this->pipeEntities as $pipeGroup) 
@@ -209,6 +262,19 @@ class PipeSystem implements SystemInterface
 
             $height = $this->pipeHeights[$renderPipeIndex];
             $gabSize = $this->pipeGabs[$renderPipeIndex];
+            $pipeX = $renderPipeIndex * $this->pipeDistance + $this->pipeStartOffset;
+
+            // close the pipes after the player has passed 50 of them
+            // the closing speed determines, well how fast the pipes close..
+            // everything below 40 is almost impossible to pass we start to increase
+            // closing speed at 100 points
+            $difficutly = 150 * $globalState->closingPipesDifficulty;
+            $closingSpeedDist = $difficutly - Math::clamp($globalState->score - $difficutly, 0, 30);
+
+            if ($globalState->alwaysClosingPipes || $globalState->score > 50) {
+                $playerDistnace = min(max($playerTransform->position->x - $pipeX, 0), $closingSpeedDist) / $closingSpeedDist;
+                $gabSize = $gabSize * (1 - $this->bounceEaseOut($playerDistnace));
+            }
 
             // first we want to transform the outlets 
             // the bottom outlets top position should be at gab size distance from the height
@@ -218,19 +284,19 @@ class PipeSystem implements SystemInterface
             $topY = $height + $gabSize / 2;
             $topY += $this->pipeSize;
 
-            $outletBottomTransform->position = new Vec3($renderPipeIndex * $this->pipeDistance + $this->pipeStartOffset, $bottomY, 0);
+            $outletBottomTransform->position = new Vec3($pipeX, $bottomY, 0);
             $outletBottomTransform->scale = new Vec3($this->pipeSize); 
             $outletBottomTransform->markDirty();
 
-            $outletTopTransform->position = new Vec3($renderPipeIndex * $this->pipeDistance + $this->pipeStartOffset, $topY, 0);
+            $outletTopTransform->position = new Vec3($pipeX, $topY, 0);
             $outletTopTransform->scale = new Vec3($this->pipeSize, -$this->pipeSize, 1);
             $outletTopTransform->markDirty();
 
-            $pipeBottomTransform->position = new Vec3($renderPipeIndex * $this->pipeDistance + $this->pipeStartOffset, $bottomY - $this->viewportHeight, 0);
+            $pipeBottomTransform->position = new Vec3($pipeX, $bottomY - $this->viewportHeight, 0);
             $pipeBottomTransform->scale = new Vec3($this->pipeSize, $this->viewportHeight, 1);
             $pipeBottomTransform->markDirty();
 
-            $pipeTopTransform->position = new Vec3($renderPipeIndex * $this->pipeDistance + $this->pipeStartOffset, $topY + $this->viewportHeight, 0);
+            $pipeTopTransform->position = new Vec3($pipeX, $topY + $this->viewportHeight, 0);
             $pipeTopTransform->scale = new Vec3($this->pipeSize, -$this->viewportHeight, 1);
             $pipeTopTransform->markDirty();
 
@@ -281,6 +347,14 @@ class PipeSystem implements SystemInterface
         $playerAABB->max->x = $playerAABB->max->x - 2.5;
         $playerAABB->min->y = $playerAABB->min->y + 2.8;
         $playerAABB->max->y = $playerAABB->max->y - 4.0;
+
+        // special case for other player sprites, yes this would be much 
+        // cleaner to store on the sprite component or even better 
+        // have a collider / aabb component. But this would require me
+        // to change how the game resets after dying and i am lazy.
+        if ($playerSprite->spriteName === 'helpium.png') {
+            $playerAABB->min->x = $playerAABB->min->x + 3.5;
+        }
         
         // D3D::aabb2D(
         //     new Vec2(),
@@ -314,6 +388,6 @@ class PipeSystem implements SystemInterface
         // update the number of pipes
         $this->ensurePipeEntities($entities, $this->getPipeCount());
 
-        DebugTextOverlay::debugString('pipe count: ' . $this->getPipeCount());
+        DebugTextOverlay::debugString('pipes rendered: ' . $this->getPipeCount()  . ' / pipe count: ' . count($this->pipeHeights));
     }
 }

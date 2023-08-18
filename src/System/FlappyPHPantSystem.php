@@ -54,10 +54,12 @@ class FlappyPHPantSystem implements SystemInterface
      */
     private function setupPlayerEntity(EntitiesInterface $entities, int $playerEntity) : void
     {
+        $gameState = $entities->getSingleton(GlobalStateComponent::class);
+
         // remove the components if they exist
         $entities->detachAll($playerEntity);
 
-        $entities->attach($playerEntity, new SpriteComponent('visuphpant3.png'));
+        $entities->attach($playerEntity, new SpriteComponent($gameState->playerSprite));
         $entities->attach($playerEntity, new PlayerComponent);
         $transform = $entities->attach($playerEntity, new Transform);
         $transform->position = new Vec3(0, 0, 0);
@@ -179,6 +181,7 @@ class FlappyPHPantSystem implements SystemInterface
         $playerEntity = $entities->firstWith(PlayerComponent::class);
         $playerComponent = $entities->get($playerEntity, PlayerComponent::class);
         $playerTransform = $entities->get($playerEntity, Transform::class);
+        $gameState = $entities->getSingleton(GlobalStateComponent::class);
 
         // count jump tick
         $playerComponent->jumpTick++;
@@ -199,6 +202,21 @@ class FlappyPHPantSystem implements SystemInterface
         // copy the player position to the transform
         $playerTransform->position->x = $playerComponent->position->x;
         $playerTransform->position->y = $playerComponent->position->y;
+
+        // if the player falls through the floor, underneath the first pipe
+        // we enter the helpium mode
+        if ($playerTransform->position->y < -80 && $gameState->score == 1) {
+            $playerComponent->position->y = 45;
+            $playerComponent->position->x = -30;
+            $playerComponent->velocity = 0;
+
+            $gameState->playerSprite = 'helpium.png';
+            $gameState->alwaysClosingPipes = true;
+            $gameState->closingPipesDifficulty = 0.3;
+            $sprite = $entities->get($playerEntity, SpriteComponent::class);
+            $sprite->spriteName = $gameState->playerSprite;
+
+        }
 
         // change the displayed sprite frame based on the jump tick
         $spriteComponent = $entities->get($playerEntity, SpriteComponent::class);

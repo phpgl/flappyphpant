@@ -32,4 +32,19 @@ class GlobalStateComponent
      * The current highscore
      */
     public int $highScore = 0;
+
+    /**
+     * The name of the player sprite
+     */
+    public string $playerSprite = 'visuphpant3.png';
+
+    /**
+     * Are closing pipes always enabled
+     */
+    public bool $alwaysClosingPipes = false;
+    
+    /**
+     * Closing pipes difficulty modifier (lower is harder)
+     */
+    public float $closingPipesDifficulty = 1.0;
 }

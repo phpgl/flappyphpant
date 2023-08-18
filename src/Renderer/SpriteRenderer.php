@@ -58,6 +58,7 @@ class SpriteRenderer
             'visuphpant.png' => new Vec2(32, 32),
             'visuphpant2.png' => new Vec2(32, 32),
             'visuphpant3.png' => new Vec2(32, 32),
+            'helpium.png' => new Vec2(32, 32),
             'pipe.png' => new Vec2(64, 64),
         ] as $spriteName => $dimensions) {
             $texture = new Texture($gl, $spriteName);
