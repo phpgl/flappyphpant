@@ -7,16 +7,16 @@ set_time_limit(0);
 
 /**
  *---------------------------------------------------------------
- * Autoloader / Compser
+ * Autoloader / Composer
  *---------------------------------------------------------------
  *
- * We need to access our dependencies & autloader..
+ * We need to access our dependencies & autoloader…
  */
 $container = require __DIR__ . DS . '..' . DS . 'bootstrap.php';
 
 /**
  *---------------------------------------------------------------
- * Initialie Game
+ * Initialize Game
  *---------------------------------------------------------------
  *
  * Starts GLFW, load the game entry point and start the game loop.

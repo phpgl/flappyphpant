@@ -1,7 +1,7 @@
 <?php
 /**
  * This script mostly just replaces a bunch of placeholders
- * inside of the project to kick start a VISU project.
+ * inside of the project to kick-start a VISU project.
  */
  
 /**
